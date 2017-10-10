@@ -1,5 +1,4 @@
 #!/bin/bash
-
 IMAGE_FOLDER='./JPG/'
 
 # gimp control
@@ -18,6 +17,7 @@ ufraw --version >/dev/null 2>&1 || {
 # if images file doesn't exist
 if [ ! -d $IMAGE_FOLDER ]; then  mkdir $IMAGE_FOLDER; fi
 
+
 NEF_FILES=$(ls *.[Nn][Ee][Ff])
 
 # change nef file to ppm
@@ -28,9 +28,16 @@ do
   jpg=$(echo $image | sed "s/[.].*/.jpg/")
 
   ufraw-batch $image
+
   if [ -f $ppm ];
   then
     convert $ppm $IMAGE_FOLDER$jpg;
+    if [ $1 = '--delete' ]; then
+      if [ -f $image ]; then
+        echo "Deleting $image...";
+        rm $image;
+      fi
+    fi
     if [ -f $ppm ]; then rm $ppm; fi
   fi
 done
