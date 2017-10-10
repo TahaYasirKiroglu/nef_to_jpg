@@ -25,16 +25,9 @@ NEF_FILES=$(ls *.[Nn][Ee][Ff])
 for image in $NEF_FILES
 do
   ppm=$(echo $image | sed "s/[.].*/.ppm/")
-	jpg=$(echo $image | sed "s/[.].*/.jpg/")
+  jpg=$(echo $image | sed "s/[.].*/.jpg/")
 
   ufraw-batch $image
-
-	if [ -f $image ]
-  then
-    echo "Deleting $image..."
-  	rm $image
-  fi
-
   if [ -f $ppm ];
   then
     convert $ppm $IMAGE_FOLDER$jpg;
